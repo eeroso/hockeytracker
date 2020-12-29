@@ -1,0 +1,77 @@
+#:kivy 1.10.1
+
+<Button>:
+    font_name: 'Equalize'
+    background_normal: ''
+    background_color: 1, .5, .7, .85
+
+
+<PisteporssiScreen>:
+    name: "Pisteporssi"
+    on_enter: root.get_players()
+
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png'
+
+    
+    BoxLayout:
+        orientation: "vertical"
+        padding_right: 1
+
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 1
+            Label:
+                text: root.jarjestys_text if app.kielisettings else root.jarjestys_text_english
+
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: None
+            height: 25
+            cols: 5
+            Label:
+                text: "Pelaajan nimi" if app.kielisettings else "Player name"
+            Label:
+                text: "Pelaajanumero" if app.kielisettings else "Player number"
+            Label:
+                text: "[ref=maalit]maalit[/ref]" if app.kielisettings else "[ref=maalit]goals[/ref]"
+                markup: True
+                on_ref_press: root.sort_goals()
+            Label:
+                text:"[ref=syotot]syotot[/ref]" if app.kielisettings else "[ref=maalit]passes[/ref]"
+                markup: True
+                on_ref_press: root.sort_assists()
+            Label:
+                text:"[ref=pisteet]pisteet[/ref]" if app.kielisettings else "[ref=maalit]points[/ref]"
+                markup: True
+                on_ref_press: root.sort_points()
+
+        BoxLayout:
+            RecycleView:
+                viewclass: 'TextInput'
+                data: root.data_items
+                SelectableRecycleGridLayout:
+                    cols: 5
+                    padding: [10,0,10,0]
+                    default_size: None, dp(30)
+                    default_size_hint: 0.2, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: True
+                    touch_multiselect: True
+
+        FloatLayout:
+            size_hint_y: 0.1
+            Button:
+                text: "Takaisin" if app.kielisettings else "Back"
+                size_hint: 0.1,0.3
+                on_press: 
+                    app.sm.current = "valikkoscreen"
+                    app.sm.transition.direction = 'right'
+                font_size: 20

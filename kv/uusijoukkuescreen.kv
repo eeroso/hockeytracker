@@ -1,0 +1,129 @@
+#:kivy 1.10.1
+
+<SelectableLabel1>:
+    # Draw a background to indicate selection
+    canvas.before:
+        Color:
+            rgba: (.7, .6, .6, .3) if self.selected else (.5, .5, .5, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    
+
+<UusiJoukkueScreen>:
+    id: UusiJoukkueScreen
+    name: "UusiJoukkue"
+    team_name_text_input: j_nimi
+
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png'
+
+    GridLayout:
+        rows:3
+        
+        BoxLayout:
+            size_hint: .5, None
+            height: 300
+            pos_hint: {'center_x': 1}
+            padding: 10
+            spacing: 3
+            orientation: "vertical"
+            Label:
+                text: "Joukkue nimi" if app.kielisettings else "Team name"
+                size_hint: (.5, None)
+                height: 30
+            TextInput:
+                id: j_nimi
+                size_hint: (.5, None)
+                height: 30
+                multiline: False
+            Button:
+                id: save_btn
+                text: "Tallenna joukkue" if app.kielisettings else "Save team"
+                font_size: 20
+                size_hint: 0.2, 0.1
+                height: 0.2
+                on_press: root.save_refresh()
+        
+        BoxLayout:
+            orientation: "vertical"
+            padding_right: 1
+
+            GridLayout:
+                size_hint: 1, None
+                size_hint_y: None
+                height: 25
+                cols: 1
+                Label:
+                    text: "Nykyiset Joukkueet" if app.kielisettings else "Current teams"
+
+            BoxLayout:
+                RecycleView:
+                    viewclass: 'SelectableLabel1'
+                    data: root.data_items
+                    SelectableRecycleGridLayout:
+                        cols: 1
+                        padding: [10,0,10,0]
+                        default_size: None, dp(40)
+                        default_size_hint: 0.2, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        multiselect: False
+                        spacing:1
+                        
+                    
+                        
+
+          
+    
+    FloatLayout:
+        Button:
+            text: "Takaisin" if app.kielisettings else "Return"
+            size_hint: 0.1,0.1
+            on_press: 
+                app.sm.current = "joukkuescreen"
+                app.sm.transition.direction = 'right'
+            font_size: 20
+
+    FloatLayout:
+        Button:
+            text: "[color=#FF0000]Poista[/color]" if app.kielisettings else "[color=#FF0000]Delete[/color]"
+            markup: True
+            id: poisto
+            pos_hint: {"x": 0.7, "y": 0.8}
+            size_hint: 0.1,0.1
+            on_press:
+                root.delete_chosen()
+            font_size: 20
+            disabled: app.btn_mode
+
+            
+
+<MyPopup2@Popup>:
+    id: poppari
+    title: "Ei voi lisätä tyhjää joukkuetta" if app.kielisettings else "Can't add empty team"
+    auto_dismiss:  False
+    size_hint: 0.2,0.2
+    Button:
+        text: 'OK' 
+        size_hint: 0.1,0.1
+        on_press:
+            root.dismiss()
+
+<MyPopup3@Popup>:
+    title: "Joukkue on jo" if app.kielisettings else "Duplicate entry"
+    auto_dismiss:  False
+    size_hint: 0.2,0.2
+    Button:
+        text: 'OK'
+        size_hint: 0.1,0.1
+        on_press:
+            root.dismiss()
+
+
+
+

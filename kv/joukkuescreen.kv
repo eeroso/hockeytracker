@@ -1,0 +1,98 @@
+#:kivy 1.10.1
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<Button>:
+    font_name: 'Equalize'
+    background_normal: ''
+    background_color: .1, .1, .1, 1
+
+
+<JoukkueScreen>:
+
+
+    name: "Joukkue"
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png'
+    on_enter: root.get_teams()
+    
+    FloatLayout:
+        Button:
+            text: "Takaisin" if app.kielisettings else "Return"
+            size_hint: 0.1,0.1
+            on_press: 
+                app.sm.current = "valikkoscreen"
+                app.sm.transition.direction = 'right'
+            font_size: 20
+
+    FloatLayout:
+        Button:
+            text: "Lisaa uusi joukkue" if app.kielisettings else "Add new team"
+            size_hint: 0.2,0.05
+            on_press: 
+                app.sm.current = "uusijoukkuescreen"
+                app.sm.transition.direction = 'left'
+            font_size: 15
+            pos_hint: {"x": 0.4, "top": 0.95}
+
+
+    FloatLayout:
+        Button:
+            text: "Lisaa uusi pelaaja" if app.kielisettings else "Add new player"
+            size_hint: 0.2,0.05
+            on_press: 
+                app.sm.current = "uusipelaajascreen"
+                app.sm.transition.direction = 'left'
+            font_size: 15
+            pos_hint: {"x": 0.4, "top": 0.9}
+
+    FloatLayout:
+        Button:
+            text: "Hallitse pelaajia" if app.kielisettings else "Manage players"
+            size_hint: 0.2,0.05
+            on_press: 
+                app.sm.current = "kaikkipelaajatscreen"
+                app.sm.transition.direction = 'left'
+            font_size: 15
+            pos_hint: {"x": 0.4, "top": 0.85}
+        
+    FloatLayout:
+        Spinner:
+            text: "Kotijoukkue" if app.kielisettings else "Home team"
+            id: koti
+            size_hint: 0.25,0.05
+            font_size: 20
+            pos_hint: {"x": 0.15, "top": 0.6}
+            values: root.joukkiot
+            on_text:
+                if koti.text == "Kotijoukkue": root.lambda_l()
+                elif koti.text == "Home team": root.lambda_l()
+                else: root.get_home(), root.animate_it_home(self)
+    
+    FloatLayout:
+        Spinner:
+            text: "Vierasjoukkue" if app.kielisettings else "Away team"
+            id: vieras
+            size_hint: 0.25,0.05
+            font_size: 20
+            pos_hint: {"x": 0.65, "top": 0.6}
+            values: root.joukkiot
+            on_text:
+                if vieras.text == "Vierasjoukkue": root.lambda_l()
+                elif vieras.text == "Away team": root.lambda_l()
+                else: root.get_away(), root.animate_it_away(self)
+
+
+        
+        
+    FloatLayout:
+        Button:
+            text: "Seuraava" if app.kielisettings else "Next"
+            size_hint: 0.1,0.1
+            on_press: 
+                app.sm.transition.direction = 'left'
+                app.sm.current = "poytakirjascreen"
+            font_size: 20
+            pos_hint: {"x":0.9}

@@ -1,0 +1,167 @@
+#:kivy 1.10.1
+
+<Button>:
+    color: 1,1,1,1
+
+<SelectableButton>:
+    # Draw a background to indicate selection
+    canvas.before:
+        Color:
+            rgba: (.0, 0.9, .1, .3) if self.selected else (0, 0, 0, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    on_release: root.parent.parent.parent.parent.parent.parent.set_valittu(self.text)
+
+
+    
+
+
+<UusiPelaajaScreen>:
+   
+    name: "UusiPelaaja"
+    on_enter:
+        root.get_teams()
+        root.tyhjennasetit()
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png'
+
+    team_name_text_input: j_nimi
+    player_name_text_input: playername
+    player_no_text_input: playerno
+
+    GridLayout:
+        rows:3
+        
+        BoxLayout:
+            size_hint: .5, None
+            height: 300
+            pos_hint: {'center_x': 1}
+            padding: 10
+            spacing: 3
+            orientation: "vertical"
+            Label:
+                text: "Joukkueen nimi" if app.kielisettings else "Team name"
+                size_hint: (.5, None)
+                height: 30
+            TextInput:
+                id: j_nimi
+                size_hint: (.5, None)
+                height: 30
+                multiline: False
+                disabled: True
+                write_tab: False
+            Label:
+                text: "Pelaajan nimi" if app.kielisettings else "Player name"
+                size_hint: (.5, None)
+                height: 30
+            TextInput:
+                id: playername
+                size_hint: (.5, None)
+                height: 30
+                multiline: False
+                write_tab: False
+            Label:
+                text: "Pelaajan numero" if app.kielisettings else "Player number"
+                size_hint: (.5, None)
+                height: 30
+            TextInput:
+                id: playerno
+                size_hint: (.5, None)
+                height: 30
+                multiline: False
+            
+            Button:
+                id: save_btn_player
+                text: "Tallenna pelaaja" if app.kielisettings else "Save player"
+                font_size: 20
+                size_hint: 0.2, 0.1
+                height: 1
+                on_press: root.save_player()
+
+        BoxLayout:
+            orientation: "vertical"
+            padding_right: 1
+
+            GridLayout:
+                size_hint: 1, None
+                size_hint_y: None
+                height: 25
+                cols: 1
+                Label:
+                    text: "Nykyiset Joukkueet" if app.kielisettings else "Current teams"
+
+            BoxLayout:
+                RecycleView:
+                    viewclass: 'SelectableButton'
+                    data: root.data_items
+                    SelectableRecycleGridLayout:
+                        cols: 1
+                        padding: [10,0,10,0]
+                        default_size: None, dp(46)
+                        default_size_hint: 0.2, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        multiselect: True
+                        touch_multiselect: True
+    
+    FloatLayout:
+        Button:
+            text: "Takaisin" if app.kielisettings else "Return"
+            size_hint: 0.1,0.1
+            on_press: 
+                app.sm.current = "joukkuescreen"
+                app.sm.transition.direction = 'right'
+            font_size: 20
+
+
+<MyPopup4@Popup>:
+    title: "Tyhja nimi" if app.kielisettings else "Empty name"
+    auto_dismiss:  False
+    size_hint: 0.2,0.2
+    Button:
+        text: 'OK'
+        size_hint: 0.1,0.1
+        on_press:
+            root.dismiss()
+
+<MyPopup5@Popup>:
+    title: "Virheellinen pelinumero" if app.kielisettings else "Invalid player number"
+    auto_dismiss:  False
+    size_hint: 0.2,0.2
+    Button:
+        text: 'OK'
+        size_hint: 0.1,0.1
+        on_press:
+            root.dismiss()
+
+<MyPopup6@Popup>:
+    title: "Virheelliset setit" if app.kielisettings else "Invalid settings"
+    auto_dismiss:  False
+    size_hint: 0.2,0.2
+    Button:
+        text: 'OK'
+        size_hint: 0.1,0.1
+        on_press:
+            root.dismiss()
+
+<MyPopup7@Popup>:
+    title: "Duplikaatti" if app.kielisettings else "Duplicate entry"
+    auto_dismiss:  False
+    size_hint: 0.2,0.2
+    Button:
+        text: 'OK'
+        size_hint: 0.1,0.1
+        on_press:
+            root.dismiss()
+
+<MyPopup15@Popup>:
+    title: "Tallennettu" if app.kielisettings else "Saved"
+    auto_dismiss: True
+    size_hint: 0.2,0.2
+    
+

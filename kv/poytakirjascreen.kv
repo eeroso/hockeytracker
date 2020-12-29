@@ -1,0 +1,1017 @@
+#:kivy 1.10.1
+
+<Label>:
+    color: 0,0,0,1
+    
+
+<PoytakirjaScreen>:
+    name: "Poytakirja"
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png' if root.jokupaska else "valkone.jpg"
+
+    on_enter:
+        root.get_jengit()
+        root.get_players_koti(self.kotinippu1)
+        root.get_players_vieras(self.vierasnippu1)
+        root.nimea_jengit(self.kotinippu1, self.vierasnippu1)
+    
+    BoxLayout:
+        orientation: 'vertical'
+        spacing: 10
+
+        GridLayout:
+            id: ylaInputit
+            padding: [100,0,200,0]
+            size_hint: 1, None
+            size_hint_y: None
+            height: 50
+            cols: 6
+            Label:
+                text: "Sarja:" if app.kielisettings else "League"
+                size_hint_x: 0.1
+            TextInput:
+                id: sarja
+                size_hint: (.35, None)
+                height: 30
+                multiline: False
+                write_tab: False
+            Label:
+                text: "Ott.nr:" if app.kielisettings else "Game no:"
+                size_hint_x: 0.1
+            TextInput:
+                id: ottnro
+                size_hint: (.1, None)
+                height: 30
+                multiline: False
+                write_tab: False
+            Label:
+                text: "Alkoi:" if app.kielisettings else "Started:"
+                size_hint_x: 0.1
+            TextInput:
+                id: alkuaika
+                size_hint: (.1, None)
+                height: 30
+                multiline: False
+                write_tab: False
+            Label:
+                text: "Paikka ja pvm" if app.kielisettings else "Location and date"
+                size_hint_x: 0.1
+            TextInput:
+                id: paikkapvm
+                size_hint: (.30, None)
+                height: 30
+                multiline: False
+                write_tab: False
+            Label:
+                text: "Yleiso:" if app.kielisettings else "Crowd"
+                size_hint_x: 0.1
+            TextInput:
+                id: yleiso
+                size_hint: (.1, None)
+                height: 30
+                multiline: False
+                write_tab: False
+            Label:
+                text: "Paattyi:" if app.kielisettings else "Ended"
+                size_hint_x: 0.1
+            TextInput:
+                id: paattymisaika
+                size_hint: (.1, None)
+                height: 30
+                multiline: False
+                write_tab: False
+     
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: 0.1
+            height: 50
+            cols: 5
+            padding: [0,0,500,0]
+            Label:
+                text: "Koti"
+                id: kotilabel
+            Label:
+                text:""
+            Label:
+                text: "Maalit" if app.kielisettings else "Goals"
+            Label:
+                text:""
+            Label:
+                text: "Rangaistukset" if app.kielisettings else "Penalties"
+
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: 0.1
+            height: 20
+            cols: 12
+            padding: [440,0,270,0]
+            Label:
+                text: "M"
+            Label:
+                text: "E"
+            Label:
+                text: "Aika" if app.kielisettings else "Time"
+            Label:
+                text: "T"
+            Label:
+                text: "S"
+            Label:
+                text: "S"
+            Label:
+                text: "Nr"
+            Label:
+                text: "Min"
+            Label:
+                text: "Syy" if app.kielisettings else "Cause"
+            Label:
+                text: "L"
+            Label:
+                text: "Aika" if app.kielisettings else "Time"
+            Label:
+                text: "Paattyi" if app.kielisettings else "Ended"
+            
+
+
+        BoxLayout:
+            orientation: 'horizontal'
+            RecycleView:
+                viewclass: 'TextInput'
+                id: rv
+                data: root.data_pelaajat_koti
+                size_hint: 0.18, 1
+                RecycleGridLayout:
+                    cols: 1
+                    default_size: 0.1, dp(30)
+                    default_size_hint: 0.1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    multiselect: True
+                    touch_multiselect: True
+                    orientation: 'vertical'
+                    spacing: 1
+            GridLayout:
+                id: kotiInputit
+                cols: 12
+                padding: [150,0,270,0]
+                TextInput:
+                    id: maalinro1
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija1
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja11
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja21
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    id: paska
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: maalinro2
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija2
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja12
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja22
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: maalinro3
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija3
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja13
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja23
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: maalinro4
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija4
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja14
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja24
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: maalinro5
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija5
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja15
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja25
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: maalinro6
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija6
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja16
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja26
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: maalinro7
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija7
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja17
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja27
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: maalinro8
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija8
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja18
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja28
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: maalinro9
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: maalintekija9
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja19
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: syottaja29
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                                          
+            
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: 0.1
+            height: 50
+            cols: 5
+            padding: [0,0,500,0]
+            Label:
+                text: "Vieras"
+                id: vieraslabel
+            Label:
+                text:""
+            Label:
+                text: "Maalit" if app.kielisettings else "Goals"
+            Label:
+                text:""
+            Label:
+                text: "Rangaistukset" if app.kielisettings else "Penalties"
+        GridLayout:
+            size_hint: 1, None
+            size_hint_y: 0.1
+            height: 20
+            cols: 12
+            padding: [440,0,270,0]
+            Label:
+                text: "M"
+            Label:
+                text: "E"
+            Label:
+                text: "Aika" if app.kielisettings else "Time"
+            Label:
+                text: "T"
+            Label:
+                text: "S"
+            Label:
+                text: "S"
+            Label:
+                text: "Nr"
+            Label:
+                text: "Min"
+            Label:
+                text: "Syy" if app.kielisettings else "Cause"
+            Label:
+                text: "L"
+            Label:
+                text: "Aika" if app.kielisettings else "Time"
+            Label:
+                text: "Paattyi" if app.kielisettings else "Ended"
+
+        BoxLayout:
+            orientation: 'horizontal'
+            RecycleView:
+                viewclass: 'TextInput'
+                id: rv
+                data: root.data_pelaajat_vieras
+                size_hint: 0.18, 1
+                RecycleGridLayout:
+                    cols: 1
+                    default_size: 0.1, dp(30)
+                    default_size_hint: 0.1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    multiselect: True
+                    touch_multiselect: True
+                    orientation: 'vertical'
+                    spacing: 1
+            GridLayout:
+                cols: 12
+                padding: [150,0,270,0]
+                id: vierasInputit
+                TextInput:
+                    id: vmaalinro1
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija1
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja11
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja21
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    id: paska
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    id: paska
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vmaalinro2
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija2
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja12
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja22
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vmaalinro3
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija3
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja13
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja23
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vmaalinro4
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija4
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja14
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja24
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vmaalinro5
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija5
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja15
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja25
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vmaalinro6
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija6
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja16
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja26
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vmaalinro7
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija7
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja17
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja27
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vmaalinro8
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija8
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja18
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja28
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vmaalinro9
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30  
+                TextInput:
+                    id: vmaalintekija9
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja19
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    id: vsyottaja29
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30 
+                TextInput:
+                    size_hint: (0.1, None)
+                    height: 30
+
+    FloatLayout:
+        Button:
+            id: valikkobtn
+            text: "Seuraava" if app.kielisettings else "Next"
+            visible: True
+            size_hint: 0.1,0.1 if self.visible else 0
+            on_press:
+                root.maalit_koti(root.ids.maalinro1.text, root.ids.maalinro2.text, root.ids.maalinro3.text, root.ids.maalinro4.text, root.ids.maalinro5.text, root.ids.maalinro6.text, root.ids.maalinro7.text, root.ids.maalinro8.text, root.ids.maalinro9.text)
+                root.maalintekijat_koti(root.kotinippu1, root.ids.maalintekija1.text, root.ids.maalintekija2.text, root.ids.maalintekija3.text, root.ids.maalintekija4.text, root.ids.maalintekija5.text, root.ids.maalintekija6.text, root.ids.maalintekija7.text, root.ids.maalintekija8.text, root.ids.maalintekija9.text)
+                root.maalit_vieras(root.ids.vmaalinro1.text, root.ids.vmaalinro2.text, root.ids.vmaalinro3.text, root.ids.vmaalinro4.text, root.ids.vmaalinro5.text, root.ids.vmaalinro6.text, root.ids.vmaalinro7.text, root.ids.vmaalinro8.text, root.ids.vmaalinro9.text)
+                root.maalintekijat_vieras(root.vierasnippu1, root.ids.vmaalintekija1.text, root.ids.vmaalintekija2.text, root.ids.vmaalintekija3.text, root.ids.vmaalintekija4.text, root.ids.vmaalintekija5.text, root.ids.vmaalintekija6.text, root.ids.vmaalintekija7.text, root.ids.vmaalintekija8.text, root.ids.vmaalintekija9.text)
+                root.syottajat_koti(root.kotinippu1, root.ids.syottaja11.text, root.ids.syottaja21.text, root.ids.syottaja12.text, root.ids.syottaja22.text, root.ids.syottaja13.text, root.ids.syottaja23.text, root.ids.syottaja14.text, root.ids.syottaja24.text, root.ids.syottaja15.text, root.ids.syottaja25.text, root.ids.syottaja16.text, root.ids.syottaja26.text, root.ids.syottaja17.text, root.ids.syottaja27.text, root.ids.syottaja18.text, root.ids.syottaja28.text, root.ids.syottaja19.text, root.ids.syottaja29.text)
+                root.syottajat_vieras(root.vierasnippu1, root.ids.vsyottaja11.text, root.ids.vsyottaja21.text, root.ids.vsyottaja12.text, root.ids.vsyottaja22.text, root.ids.vsyottaja13.text, root.ids.vsyottaja23.text, root.ids.vsyottaja14.text, root.ids.vsyottaja24.text, root.ids.vsyottaja15.text, root.ids.vsyottaja25.text, root.ids.vsyottaja16.text, root.ids.vsyottaja26.text, root.ids.vsyottaja17.text, root.ids.vsyottaja27.text, root.ids.vsyottaja18.text, root.ids.vsyottaja28.text, root.ids.vsyottaja19.text, root.ids.vsyottaja29.text)
+                root.poistaTiedot()
+                app.sm.current = "pistetulosscreen"
+                app.sm.transition.direction = 'left'
+            font_size: 20
+            pos_hint: {"x":0.9}
+            opacity: 1 if self.visible else 0
+            disabled: not self.visible
+
+    FloatLayout:
+        Button:
+            text: "Takaisin" if app.kielisettings else "Back"
+            id: takasin
+            visible: True
+            size_hint: 0.05,0.03 if self.visible else 0
+            on_press: 
+                app.sm.current = "joukkuescreen"
+                app.sm.transition.direction = 'right'
+            font_size: 10
+            pos_hint: {"x":0.5, "y":0.01}
+            opacity: 1 if self.visible else 0
+            disabled: not self.visible
+    FloatLayout:
+        Button:
+            text: "Ota kuva" if app.kielisettings else "Screenshot"
+            id: ssbtn
+            visible: True
+            size_hint: 0.06,0.05 if self.visible else 0
+            on_press: 
+                root.ota_ss()
+            font_size: 11
+            pos_hint: {"x":0.92, "y":0.919}
+            opacity: 1 if self.visible else 0
+            disabled: not self.visible
+    
+
+        
+
+    #:import F kivy.factory.Factory
+<MyPopup@Popup>:
+    id: poppari
+    title: "Virheelliset joukkuevalinnat" if app.kielisettings else "Invalid teams"
+    auto_dismiss:  False
+    size_hint: 0.2,0.2
+    Button:
+        text: 'Palaa' if app.kielisettings else "Back"
+        size_hint: 0.1,0.1
+        on_press:
+            app.sm.transition.direction = 'right'
+            app.sm.current = "joukkuescreen"
+        on_release:
+            root.dismiss()

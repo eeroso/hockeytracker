@@ -1,0 +1,126 @@
+#:kivy 1.10.1
+<SelectableLabel1>:
+    # Draw a background to indicate selection
+    canvas.before:
+        Color:
+            rgba: (.6, .9, .9, .5) if self.selected else (.9, .9, .9, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<SelectableButton2>:
+    # Draw a background to indicate selection
+    canvas.before:
+        Color:
+            rgba: (.0, 0.9, .1, .3) if self.selected else (0, 0, 0, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    on_release: root.parent.parent.parent.parent.parent.klikattu_joukkue(self.text)
+
+<KaikkipelaajatScreen>:
+    name: "kaikkipelaajatScreen"
+    on_enter: 
+        root.get_teams()
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png'
+
+    BoxLayout:
+        size_hint: 1,1
+        orientation: "horizontal"
+        BoxLayout:
+            orientation: "vertical"
+            Label:
+                text: "Joukkueet" if app.kielisettings else "Teams"
+                size_hint: 1, 0.05
+            RecycleView:
+                viewclass: 'SelectableButton2'
+                data: root.data_items
+                SelectableRecycleGridLayout:
+                    padding: [10,0,10,100]
+                    cols: 1
+                    default_size: None, dp(46)
+                    default_size_hint: 0.2, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: False
+                    touch_multiselect: False
+            Label:
+                size_hint_y: 0.5
+         
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1,1
+            Label:
+                text: "Aktiiviset" if app.kielisettings else "Active"
+                size_hint: 1, 0.05
+            RecycleView:
+                viewclass: 'SelectableLabel1'
+                data: root.data_items_act
+                SelectableRecycleGridLayout:
+                    padding: [10,0,10,0]
+                    cols: 1
+                    default_size: None, dp(26)
+                    default_size_hint: 1, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: False
+                    touch_multiselect: False
+                    spacing: 1
+
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: 1,1
+            Label:
+                text: "Inaktiiviset" if app.kielisettings else "Inactive"
+                size_hint: 1, 0.05
+            RecycleView:
+                viewclass: 'SelectableLabel1'
+                data: root.data_items_inact
+                SelectableRecycleGridLayout:
+                    padding: [10,0,10,0]
+                    cols: 1
+                    default_size: None, dp(26)
+                    default_size_hint: 0.2, None
+                    size_hint_y: None
+                    height: self.minimum_height
+                    orientation: 'vertical'
+                    multiselect: False
+                    touch_multiselect: False
+                    spacing: 1
+            
+
+        
+    FloatLayout:
+        Button:
+            text: "Takaisin" if app.kielisettings else "Return"
+            size_hint: 0.1,0.1
+            on_press: 
+                app.sm.current = "joukkuescreen"
+                app.sm.transition.direction = 'right'
+            font_size: 20
+
+    FloatLayout:
+        Button:
+            text: "[color=#FF0000]Poista[/color]" if app.kielisettings else "[color=#FF0000]Delete[/color]"
+            markup: True
+            size_hint: 0.1,0.1
+            pos_hint: {"x":0.19, "y":0}
+            on_press:
+                root.delete_chosen("lambda")
+            font_size: 20
+
+    FloatLayout:
+        Button:
+            text: "[color=#2EFEF7]Aktiivinen[/color]" if app.kielisettings else "[color=#2EFEF7]Active[/color]"
+            markup: True
+            size_hint: 0.1,0.1
+            pos_hint: {"x":0.31, "y":0}
+            on_press:
+                root.toggle_active("lambda")
+            font_size: 19

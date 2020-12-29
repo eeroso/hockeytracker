@@ -1,0 +1,276 @@
+#:kivy 1.10.1
+<SelectableButton1>:    
+    # Draw a background to indicate selection
+    canvas.before:
+        Color:
+            rgba: (.0, 0.9, .1, .3) if self.selected else (0, 0, 0, 1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    on_release:
+
+<TextInputPopup>:
+    title: "Lisaa pisteita" if app.kielisettings else "Add points"
+    size_hint: None, None
+    size: 400, 400
+    auto_dismiss: False
+
+
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            id: nimilbl
+            text: root.obj_text
+            size_hint_y: 0.3
+        GridLayout:
+            size_hint_y: 0.1
+            cols: 2
+            Label:
+                text: "Maalit:" if app.kielisettings else "Goals:"
+            TextInput:
+                id: maalitinput
+
+        GridLayout:
+            cols: 2
+            size_hint_y: 0.1
+            Label:
+                text: "Syotot:" if app.kielisettings else "Passes:"
+            TextInput:
+                id: syototinput
+        Label:
+            size_hint_y: 0.05
+
+        Button:
+            size_hint: 1, 0.2
+            text: "Tallenna muutokset" if app.kielisettings else "Save changes"
+            on_release:
+                root.obj.update_changes(maalitinput.text, syototinput.text, root.obj_text)
+                root.dismiss()
+
+        Button:
+            size_hint: 1, 0.2
+            text: "Peruuta" if app.kielisettings else "Dismiss"
+            on_release: root.dismiss()
+
+<ConfirmationPopup>:
+    title: "Tiedot tallennettu" if app.kielisettings else "Saved"
+    size_hint: None, None
+    size: 400, 400
+    auto_dismiss: False
+
+    BoxLayout:
+        orientation: "vertical"
+        Label:
+            id: nimilbl
+            text: "Tiedot tallennettu" if app.kielisettings else "Saved"
+            size_hint_y: 0.3
+        Label:
+            size_hint_y: 0.05
+
+        Button:
+            size_hint: 1, 0.2
+            text: "Ok"
+            on_release:
+                app.sm.current = "valikkoscreen"
+                app.sm.transition.direction = 'right'
+                root.dismiss()
+
+
+<PistetulosScreen>:
+    name: "pistetulosscreen"
+    on_enter:
+        root.get_jengit()
+        root.get_players_vieras()
+        root.nimea_jengit(self.kotinippu1, self.vierasnippu1)
+        root.get_goals()
+        root.get_players_koti()
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png'
+    
+    BoxLayout:
+        orientation: "vertical"
+        GridLayout:
+            orientation: 'horizontal'
+            padding_right: 1
+            size_hint: 1, 1
+            cols: 2
+
+            GridLayout:
+                size_hint: 1, None
+                size_hint_y: None
+                height: 25
+                cols: 1
+                Label:
+                    text: "Koti" 
+                    id: kotilabel
+
+            GridLayout:
+                size_hint: 1, None
+                size_hint_y: None
+                height: 25
+                cols: 1
+                Label:
+                    text: "Vieras"
+                    id: vieraslabel
+
+            GridLayout:
+                cols: 1     
+                RecycleView:
+                    viewclass: 'Button'
+                    id: rv
+                    data: root.data_items_koti
+                    RecycleGridLayout:
+                        cols: 1
+                        padding: [50,0,50,0]
+                        default_size: None, dp(26)
+                        default_size_hint: 0.2, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
+                        multiselect: False
+                        spacing: 1
+                        
+
+            GridLayout:
+                cols: 1
+                RecycleView:
+                    viewclass: 'Button'
+                    data: root.data_items_vieras
+                    RecycleGridLayout:
+                        cols: 1
+                        padding: [50,0,50,0]
+                        default_size: None, dp(26)
+                        default_size_hint: 0.2, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        multiselect: False
+                        touch_multiselect: False
+                        spacing: 1
+
+        GridLayout:
+            size_hint_y: 0.15
+            cols: 2
+
+            GridLayout: 
+                padding: [250,0,250,0]
+                size_hint: 0.5, None
+                size_hint_y: 0.7
+                height: 25
+                rows: 3
+                Label:
+                    text: "Maalit" if app.kielisettings else "Goals"
+                    size_hint: 1,0.5
+                Label:
+                    text: app.maalit_koti
+                    id: kotojeng               
+                    valign: 'middle'
+                    halign: 'center'
+                Label:
+
+
+
+            GridLayout:
+                padding: [250,0,250,0]
+                size_hint: 0.5, None
+                size_hint_y: 0.7
+                height: 25
+                rows: 3
+                Label:
+                    size_hint: 1,0.5
+                    text: "Maalit" if app.kielisettings else "Goals"
+                Label:
+                    valign: 'middle'
+                    halign: 'center'
+                    text: app.maalit_vieras
+                Label:
+                
+
+                    
+
+            BoxLayout:
+                padding: [0,10,0,0]
+                height: 30
+                orientation: 'vertical'
+                size_hint: 1, None
+                size_hint_y: None
+                Label:
+                    text: "Voittaja" if app.kielisettings else "Winner"
+                Label:
+                Label:
+                Label:
+                Label:
+                CheckBox:
+                    color: 0,0,0,1
+                    group: "voittaja"
+                    id: voittobox
+                    text: "voittaja" if app.kielisettings else "winner"
+                    on_active: root.kotivoitto = self.active
+                    active: app.koti_voitolla
+                    disabled: app.onko_kv_kaytos
+                    size_hint: (1,1)
+
+
+            BoxLayout:
+                padding: [0,10,0,0]
+                height: 30
+                orientation: 'vertical'
+                size_hint: 1, None
+                size_hint_y: None
+                Label:
+                    text: "Voittaja" if app.kielisettings else "Winner"
+                Label:
+                Label:
+                Label:
+                Label:
+                CheckBox:
+                    color: 0,0,0,1
+                    id: voittoboxvieras
+                    group: "voittaja"
+                    text: "paska" if app.kielisettings else "winner"
+                    on_active: root.vierasvoitto = self.active
+                    active: app.vieras_voitolla
+                    disabled: app.onko_vv_kaytos
+                    size_hint: (1,1)
+        
+
+        BoxLayout:
+            size_hint_y: 0.05
+            orientation: 'vertical'
+            Label:
+                size_hint_y: 0.5
+                text: "Jatkoaika" if app.kielisettings else "Overtime"
+            CheckBox:
+                color: 0,0,0,1
+                group: "jatkoaika"
+                id: "jatkoaikaboxi"
+                on_active: root.jatkoaika = self.active
+                active: app.tasapeli_menos
+                size_hint_y: 0.5
+        
+
+
+
+    FloatLayout:
+        Button:
+            id: tallennabtn
+            text: "Tallenna" if app.kielisettings else "Save"
+            size_hint: 0.1,0.1
+            on_press: 
+                root.tallenna_tiedot(root.kotinippu1, root.vierasnippu1)
+                root.on_press_popup()
+            font_size: 20
+            pos_hint: {"x":0.9}
+    
+    FloatLayout:
+        Button:
+            id: takaisin
+            text: "Takaisin paavalikkoon" if app.kielisettings else "Back to menu"
+            size_hint: 0.2,0.03
+            on_press: 
+                app.sm.current = "valikkoscreen"
+                app.sm.transition.direction = 'right'
+            font_size: 13
+            pos_hint: {"x":0.0008, "y":0.0006}

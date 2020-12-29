@@ -1,0 +1,50 @@
+#:kivy 1.10.1
+
+
+<CustomButton>:
+    background_normal: "eero.png"
+    font_name: 'Equalize'
+    opacity: 1 if self.state == 'normal' else .5
+    border: 2,2,2,2
+    markup: True
+
+<AsetusScreen>:
+    name: "asetusscreen"
+    
+     
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png'    
+
+    FloatLayout:
+        CustomButton:
+            text: "Nollaa tilastot" if app.kielisettings else "Reset statistics"
+            color: 1,1,1,1
+            size_hint: 0.3,0.1
+            on_press: 
+                root.nollaa_tilastot()
+            font_size: 25
+            pos_hint: {"x": 0.35, "top": 0.9 }
+
+   
+
+    FloatLayout:
+        CustomButton:
+            text: "Palaa" if app.kielisettings else "Return"
+            color: 1,1,1,1
+            size_hint: 0.1,0.1
+            on_press:
+                app.sm.current = "valikkoscreen"
+                app.sm.transition.direction = 'right'
+            font_size: 20
+
+    FloatLayout:
+        CustomButton:
+            text: "English" if app.kielisettings else "Suomi"
+            color: 1,1,1,1
+            size_hint: 0.3,0.1
+            pos_hint: {"x": 0.35, "top": 0.7}
+            on_press: root.vaihda_kieli() 
+            font_size: 25

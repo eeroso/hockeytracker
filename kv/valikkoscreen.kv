@@ -1,0 +1,73 @@
+#:kivy 1.10.1
+
+
+<CustomButton>:
+    background_normal: "eero.png"
+    font_name: 'Equalize'
+    opacity: 1 if self.state == 'normal' else .5
+    border: 2,2,2,2
+    markup: True
+
+<ValikkoScreen>:
+    name: "Valikko"
+    on_enter:
+        root.clear_variables()
+        root.create_table()
+     
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'wallpaper.png'    
+
+    FloatLayout:
+        CustomButton:
+            text: "Seuraa ottelu" if app.kielisettings else "Track a match"
+            color: 1,1,1,1
+            size_hint: 0.3,0.1
+            on_press: 
+                app.sm.current = 'joukkuescreen'
+                app.sm.transition.direction = 'left'
+            font_size: 25
+            pos_hint: {"x": 0.35, "top": 0.9 }
+
+    FloatLayout:
+        CustomButton:
+            text: "SARJATAULUKKO" if app.kielisettings else "LEAGUE TABLE"
+            color: 1,1,1,1
+            size_hint: 0.3,0.1
+            on_press: 
+                app.sm.current = "tilastoscreen"
+                app.sm.transition.direction = 'left'
+            font_size: 25
+            pos_hint: {"x": 0.35, "top": 0.6 }
+    
+    FloatLayout:
+        CustomButton:
+            text: "Pisteporssi" if app.kielisettings else "PLAYER STATISTICS"
+            color: 1,1,1,1
+            size_hint: 0.3,0.1
+            on_press: 
+                app.sm.current = "pisteporssiscreen"
+                app.sm.transition.direction = 'left'
+            font_size: 25
+            pos_hint: {"x": 0.35, "top": 0.3 }
+
+    FloatLayout:
+        CustomButton:
+            text: "Poistu" if app.kielisettings else "Exit"
+            color: 1,1,1,1
+            size_hint: 0.1,0.1
+            on_press: app.stop() 
+            font_size: 20
+
+    FloatLayout:
+        CustomButton:
+            text: "Asetukset" if app.kielisettings else "Settings"
+            color: 1,1,1,1
+            size_hint: 0.11,0.1
+            pos_hint: {"x": 0.90, "bottom": 0 }
+            on_press:
+                app.sm.current = "asetusscreen"
+                app.sm.transition.direction = 'left' 
+            font_size: 18
